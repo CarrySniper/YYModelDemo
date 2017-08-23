@@ -10,9 +10,9 @@
 
 @interface UserModel : CommonModel
 
-@property (nonatomic, assign) UInt64 uid;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSDate *created;
+@property (nonatomic, assign) UInt64 Uid;
+@property (nonatomic, copy) NSString *Name;
+@property (nonatomic, copy) NSDate *Created;
 
 
 @end
