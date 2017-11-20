@@ -21,30 +21,32 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    NSData *userData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"user" ofType:@"json"]];
+    [self modelWithJSON];
     
-    // 将 JSON (NSData,NSString,NSDictionary) 转换为 Model:
-//    UserModel *user = [UserModel yy_modelWithJSON:userData];
-    
-//    NSLog(@"%llu %@ %@", user.uid, user.name, user.created);
-//    // 将 Model 转换为 JSON 对象:
-//    NSDictionary *json = [user yy_modelToJSONObject];
-//    NSLog(@"%@", json);
-    
-    NSData *JSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"data" ofType:@"json"]];
-
-    DataModel *data = [DataModel yy_modelWithJSON:JSONData];
-//    NSLog(@"%@", data.user.name);
-    //存储数据
-    [data archiveModelTo:@"people"];
-    //取出存储的数据， 可以通过NSLog看到输出的内容
-    DataModel *samePeople = [DataModel unarchiverModelFrom:@"people"];
-    NSLog(@"%@ %@", [samePeople description], samePeople.User.name);
-    
-    
+    [self modelInModelWithJSON];
 }
 
+- (void)modelWithJSON {
+    NSData *userData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"user" ofType:@"json"]];
+    // 将 JSON (NSData,NSString,NSDictionary) 转换为 Model:
+    UserModel *user = [UserModel yy_modelWithJSON:userData];
+    NSLog(@"json转模型 %llu %@ %@", user.Uid, user.Name, user.Created);
+    // 将 Model 转换为 JSON 对象:
+    NSDictionary *json = [user yy_modelToJSONObject];
+    NSLog(@"模型转json：%@", json);
+}
 
+- (void)modelInModelWithJSON {
+    NSData *JSONData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"data" ofType:@"json"]];
+    
+    DataModel *model = [DataModel yy_modelWithJSON:JSONData];
+    NSLog(@"json转模型 %@", model.User.Name);
+    //存储数据
+    [model archiveModelTo:@"people"];
+    //取出存储的数据， 可以通过NSLog看到输出的内容
+    DataModel *samePeople = [DataModel unarchiverModelFrom:@"people"];
+    NSLog(@"取出存储的数据：%@ %@", [samePeople description], samePeople.User.Name);
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
