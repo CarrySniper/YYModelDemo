@@ -31,25 +31,18 @@
     return [self yy_modelDescription];
 }
 
-#pragma mark - 单个对象进行归档及反归档
+#pragma mark - 进行NSUserDefaults存取
 #pragma mark 归档
-- (void)archiveModelTo:(NSString *)filename {
-    NSString *path = [CommonModel documentDirectory:filename];
-    BOOL success = [NSKeyedArchiver archiveRootObject:self toFile:path];
-    NSLog(@"单个文件%@", success ? @"存储成功" : @"存储失败");
-}
-#pragma mark 读档
-+ (id)unarchiverModelFrom:(NSString *)filename {
-    NSString *path = [self documentDirectory:filename];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:path]) { return nil; }
-    id object = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    return object;
+- (void)archiveModelWithKey:(NSString *)key {
+    NSData *archiveData = [NSKeyedArchiver archivedDataWithRootObject:self];
+    [[NSUserDefaults standardUserDefaults] setObject:archiveData forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-#pragma mark - 获取documents文件夹下对应的目录
-+ (NSString *)documentDirectory:(NSString *)filename {
-    NSString *documents = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    return [documents stringByAppendingPathComponent:filename];
+#pragma mark 读档
++ (id)unarchiverModelWithKey:(NSString *)key {
+    NSData *unarchiveObject = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:unarchiveObject];
 }
 
 @end

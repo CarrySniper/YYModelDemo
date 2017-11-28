@@ -14,16 +14,16 @@
 /**
  数据持久化归档
 
- @param filename 存储的文件名
+ @param key 存储的文件名
  */
-- (void)archiveModelTo:(NSString *)filename;
+- (void)archiveModelWithKey:(NSString *)key;
 
 /**
  数据持久化读档
 
- @param filename 存储的文件名
+ @param key 存储的文件名
  @return 读档结果对象
  */
-+ (id)unarchiverModelFrom:(NSString *)filename;
++ (id)unarchiverModelWithKey:(NSString *)key;
 
 @end

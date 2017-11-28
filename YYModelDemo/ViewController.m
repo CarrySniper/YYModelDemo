@@ -42,9 +42,9 @@
     DataModel *model = [DataModel yy_modelWithJSON:JSONData];
     NSLog(@"json转模型 %@", model.User.Name);
     //存储数据
-    [model archiveModelTo:@"people"];
+    [model archiveModelWithKey:@"people"];
     //取出存储的数据， 可以通过NSLog看到输出的内容
-    DataModel *samePeople = [DataModel unarchiverModelFrom:@"people"];
+    DataModel *samePeople = [DataModel unarchiverModelWithKey:@"people"];
     NSLog(@"取出存储的数据：%@ %@", [samePeople description], samePeople.User.Name);
 }
 
